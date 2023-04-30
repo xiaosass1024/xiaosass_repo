@@ -31,7 +31,7 @@ class KailiSpiderSpider(scrapy.Spider):
                 "outerUserTypes": ["4"], "province": "15", "city": "1243", "county": "1248", "town": "54971"}
 
     def start_requests(self):
-        for page in range(1, 2):
+        for page in range(1, 101):
             yield scrapy.Request(url=self.url, body=json.dumps(self.data(page)), method='POST', headers=self.headers,
                                  callback=self.parse_list)
 
@@ -46,6 +46,6 @@ class KailiSpiderSpider(scrapy.Spider):
             supplierName = result['supplierName']
             # print(KailiItem(catalogAllName=catalogAllName, commodityName=commodityName, marketPrice=marketPrice,
             #                 salePrice=salePrice, supplierName=supplierName))
-            # print(catalogAllName, commodityName, marketPrice, salePrice, supplierName)
+            print(catalogAllName, commodityName, marketPrice, salePrice, supplierName)
             yield KailiItem(catalogAllName=catalogAllName, commodityName=commodityName, marketPrice=marketPrice,
                             salePrice=salePrice, supplierName=supplierName)
