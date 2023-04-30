@@ -17,20 +17,22 @@ class KailiSpiderSpider(scrapy.Spider):
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
     }
 
-    def start_requests(self):
-        data = {"queryStr": "", "queryChannelId": "1008", "categoryId": "", "catalogName": "", "level": "",
+    def data(self, page):
+        return {"queryStr": "", "queryChannelId": "1008", "categoryId": "", "catalogName": "", "level": "",
                 "brandId": "",
                 "supplierShopId": "", "orderByColumn": "", "orderType": 0, "queryParams": [
                 {"filterId": "vendor_id_name", "filterName": "供应商", "filterValues": ["京东（员工活动）"],
                  "categoryId": ""}], "agreementId": "", "minSalesPrice": 0, "maxSalesPrice": "",
                 "orgPath": "1-305775845729763327-400000010000062520-400000010000062521-400000010000062556-",
-                "userId": "590509901851205647", "pageSize": 10, "pageNo": 1, "activityId": "843819168674254848",
+                "userId": "590509901851205647", "pageSize": 10, "pageNo": page, "activityId": "843819168674254848",
                 "doContract": "false", "doActity": "true", "doSelect": 1, "commodityTypeIds": [], "havStock": 0,
                 "qryToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjU5MDUwOTkwMTg1MTIwNTY0NywiaWF0IjoxNjgyNDI4NjA2NTE5LCJsb2dpblNvdXJjZSI6InBjLXdlYiJ9.KNKoB9Qp9ORGoej6qdFKWQUeKogadJUtrtTw0gZlph8",
                 "rsGoodsSearch": "false", "psDiscountRate": 0, "doMallContract": "true", "memUserType": "4", "supId": 0,
                 "outerUserTypes": ["4"], "province": "15", "city": "1243", "county": "1248", "town": "54971"}
 
-        yield scrapy.Request(url=self.url, body=json.dumps(data), method='POST', headers=self.headers,
+    def start_requests(self):
+        for page in range(1,10):
+            yield scrapy.Request(url=self.url, body=json.dumps(self.data(page)), method='POST', headers=self.headers,
                              callback=self.parse_list)
 
     def parse_list(self, response):
