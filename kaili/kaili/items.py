@@ -14,4 +14,3 @@ class KailiItem(scrapy.Item):
     marketPrice = scrapy.Field()
     salePrice = scrapy.Field()
     supplierName = scrapy.Field()
-    pass
